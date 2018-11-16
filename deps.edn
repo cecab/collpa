@@ -1,0 +1,13 @@
+{:paths ["src" "resources"]
+ :deps {
+        org.clojure/clojure {:mvn/version "1.9.0"}
+        http-kit {:mvn/version "2.2.0"}
+        com.cognitect/transit-clj {:mvn/version "0.8.293"}
+        io.xapix/axel-f {:git/url "https://github.com/cecab/axel-f.git"
+                         :sha "0c406e3b04245081e3ea569d80cfebfc4e50ca08"}}
+ :aliases
+ {:dev {:extra-deps {
+                     ;; --- For NREPL
+                     cider/cider-nrepl {:mvn/version "0.17.0"}
+                     org.clojure/tools.nrepl {:mvn/version "0.2.12"}}}}}
+
