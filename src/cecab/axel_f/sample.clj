@@ -1,9 +1,25 @@
 (ns cecab.axel-f.sample
   (:require [axel-f.core :as axel-f]))
-(comment
-  ;;---
-  ;; From https://github.com/xapix-io/axel-f
-  (axel-f/run "=CONCAT(A1,A2)", {:A1 "algo" :A2 "pasa"})
-  (axel-f/compile "=CONCAT(A1,\"PERU\")")
-  [:FNCALL "CONCAT" [[:OBJREF "A1"] [:STRING "PERU"]]]
-  )
+
+(defn run-formula
+  "Run the formula on a context of values pairing l-vars
+   with l-vals"
+  [formula l-vars l-values]
+
+  (axel-f/run formula
+    (reduce
+     merge
+     {}
+     (map (fn [k v] {k v}) l-vars l-values))))
+  
+(defn get-cells-refs
+  "Wrapper for axel-f/compile to extract all cell references"
+  [str-formula]
+    (->>
+     (axel-f/compile str-formula)
+     flatten
+     (partition 2)
+     (filter #(= :OBJREF (first %)))
+     (mapv last)))
+
+

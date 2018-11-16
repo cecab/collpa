@@ -4,36 +4,34 @@
 (import [java.io ByteArrayInputStream ByteArrayOutputStream])
 
 
-(defn respond [req]
-  "responde a una consulta Datalog en el formato del EDN tambien. Y segun
-   el URI/path lo despacha a la invocacion de una funcion."
-  (cond
-    ;; para recibir transit... as JSON encoded.
-    (= (:uri req) "/transit")
-    (let [           
-          out (ByteArrayOutputStream. 4096)
-          writer (transit/writer out :json)
-          edn-value
-          (transit/read (transit/reader
-                         (:body req)
-                         :json))
-          fn-call (first edn-value)
-          rest-args
-          (map
-           (fn [a] (if (string? a) (clojure.string/trim a) a))
-           (rest (rest edn-value)))]
-      (->> (try (apply (resolve fn-call)
-                       rest-args)
-                (catch Exception ex
-                  (str "Exception:"
-                       ex)))
-           (transit/write writer))
-      (.toString out))
-    :else
-    "43"))
+(defn respond
+  "Response function, will resolve the symbol of the function
+   and invoke it with the args received. It expects a Transit
+   encode value"
+  [req]
+  
+  (let [           
+        out (ByteArrayOutputStream. 4096)
+        writer (transit/writer out :json)
+        edn-value
+        (transit/read (transit/reader
+                       (:body req)
+                       :json))
+        fn-call (first edn-value)
+        rest-args
+        (map
+         (fn [a] (if (string? a) (clojure.string/trim a) a))
+         (rest (rest edn-value)))]
+    (->> (try (apply (resolve fn-call)
+                     rest-args)
+              (catch Exception ex
+                (str "Exception:"
+                     ex)))
+         (transit/write writer))
+    (.toString out)))
 
 (defn http-process 
-  "Define el proceso que responde a los http/reqs"
+  "A function to start the httpserver"
   [req]
   {:status 200
    :headers
@@ -59,7 +57,7 @@
   ;; and http://http-kit.org/migration.html#reload
   (reset! server
           (h/run-server #'http-process
-                        {:port 9555
+                        {:port 9200
                          :thread 8})))
 
 (comment
