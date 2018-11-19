@@ -1,6 +1,7 @@
 (ns cecab.axel-f.http
   (:require [org.httpkit.server :as h]
-            [cognitect.transit :as transit]))
+            [cognitect.transit :as transit]
+	    [clojure.tools.nrepl :as nrepl))
 (import [java.io ByteArrayInputStream ByteArrayOutputStream])
 
 
@@ -60,8 +61,6 @@
                         {:port 9200
                          :thread 8})))
 
-(comment
-  ;;--
+(defn -main []
   (start-server)
-  
-  )
+  (nrepl/start-server :port 6666 :bind "0.0.0.0"))
