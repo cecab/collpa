@@ -2,7 +2,7 @@
   (:require [org.httpkit.server :as h]
             [cognitect.transit :as transit]
             [cecab.axel-f.sample :as sample]
-	    [clojure.tools.nrepl :as nrepl)))
+	    [clojure.tools.nrepl.server :as nrepl]))
 (import [java.io ByteArrayInputStream ByteArrayOutputStream])
 
 
