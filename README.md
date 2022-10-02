@@ -47,13 +47,4 @@ Copyrights
 * [transit-js](https://github.com/cognitect/transit-js). Used to transport efficiently the data between the spreadsheets and Clojure.
 * [Axcel-F](https://github.com/xapix-io/axel-f). Used to compile/run formulas writen for Excel, but in a Clojure context
 
-
-** Sigue ***
- -> Wiki pages detallando como se copia la hoja
- -> Con imagenes de como se cambia el IP
- -> Quizas mas detalles del inicio via clj.
- -> Y como se conecta via Emacs.. un video?? bueno, para esta
-    ScreenCast!!  Se podria mostrar las funciones basicas
-    Y tambien se podria mostrar la integracion con Datomic para
-    mostrar datos.
     
